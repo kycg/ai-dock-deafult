@@ -14,7 +14,8 @@ APT_PACKAGES=(
 )
 
 PIP_PACKAGES=(
-	"piexif"
+     "piexif"
+     "matplotlib" 
     #"package-1"
     #"package-2"
 )
