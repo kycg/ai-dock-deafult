@@ -4,6 +4,14 @@
 
 # https://raw.githubusercontent.com/ai-dock/comfyui/main/config/provisioning/default.sh
 
+#cd ComfyUI/custom_nodes/
+#git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack
+#git clone https://github.com/chrisgoringe/cg-use-everywhere
+#git clone https://github.com/kijai/ComfyUI-KJNodes
+#git clone https://github.com/kycg/comfyui-Kwtoolset
+#git clone https://github.com/jamesWalker55/comfyui-various
+#git clone https://github.com/WASasquatch/was-node-suite-comfyui
+
 # Packages are installed after nodes so we can fix them...
 
 DEFAULT_WORKFLOW="https://raw.githubusercontent.com/ai-dock/comfyui/main/config/workflows/flux-comfyui-example.json"
@@ -14,14 +22,26 @@ APT_PACKAGES=(
 )
 
 PIP_PACKAGES=(
-     "piexif"
-     "matplotlib" 
+	"piexif"
+	"matplotlib" 
     #"package-1"
     #"package-2"
 )
 
 NODES=(	
+	"https://github.com/ltdrdata/ComfyUI-Impact-Pack"
+	"https://github.com/cubiq/ComfyUI_essentials"
+	"https://github.com/pythongosssss/ComfyUI-Custom-Scripts"
+	"https://github.com/chrisgoringe/cg-use-everywhere"
+	"https://github.com/kijai/ComfyUI-KJNodes"
+	"https://github.com/jamesWalker55/comfyui-various"
+	"https://github.com/WASasquatch/was-node-suite-comfyui"
     "https://github.com/kycg/comfyui-Kwtoolset"
+	"https://github.com/pythongosssss/ComfyUI-WD14-Tagger"
+	"https://github.com/hayden-fr/ComfyUI-Model-Manager"
+	"https://github.com/holchan/ComfyUI-ModelDownloader"
+	"https://github.com/Suzie1/ComfyUI_Comfyroll_CustomNodes"
+	"https://github.com/rgthree/rgthree-comfy"
 )
 
 CHECKPOINT_MODELS=(
