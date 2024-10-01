@@ -20,7 +20,7 @@ PIP_PACKAGES=(
 NODES=(	
     "https://github.com/kycg/comfyui-Kwtoolset"
 	"https://github.com/hayden-fr/ComfyUI-Model-Manager"
-	"https://github.com/holchan/ComfyUI-ModelDownloader"
+	"https://github.com/ciri/comfyui-model-downloader"
 
 )
 
