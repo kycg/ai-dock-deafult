@@ -18,7 +18,7 @@ PIP_PACKAGES=(
 NODES=(
     "https://github.com/kycg/comfyui-Kwtoolset"
 	"https://github.com/hayden-fr/ComfyUI-Model-Manager"
-	"https://github.com/holchan/ComfyUI-ModelDownloader"
+	"https://github.com/ciri/comfyui-model-downloader"
 )
 
 CHECKPOINT_MODELS=(
@@ -44,10 +44,6 @@ ESRGAN_MODELS=(
 CONTROLNET_MODELS=(
 )
 
-#Get zip file from Google Drive
-Zip_Upscale_MODELS=(
-	"1Tow8khyvMbu9_hK4jE+TeyS+glvXyVu427"
-)
 
 ### DO NOT EDIT BELOW HERE UNLESS YOU KNOW WHAT YOU ARE DOING ###
 
@@ -216,68 +212,5 @@ function provisioning_download() {
     fi
 }
 
-# Function to join the split Google Drive ID
-function combine_gdrive_id() {
-    local split_id="$1"
-    # Replace underscores with an empty string to form the complete ID
-    local gdrive_id="${split_id//+/}"
-    echo "$gdrive_id"
-}
-
-# Function to check if gdown is installed and install it if not
-function check_and_install_gdown() {
-    if ! command -v gdown &> /dev/null; then
-        printf "gdown not found, installing...\n"
-        pip_install gdown
-    else
-        printf "gdown is already installed.\n"
-    fi
-}
-# Modified function to download Google Drive models, unzip, and remove the zip file
-function provisioning_get_gdrive_models() {
-    # Ensure gdown is installed before proceeding
-    check_and_install_gdown
-
-    if [[ -z $2 ]]; then return 1; fi
-    
-    dir="$1"
-    mkdir -p "$dir"
-    shift
-    arr=("$@")
-    printf "Downloading %s Google Drive model(s) to %s...\n" "${#arr[@]}" "$dir"
-    for split_url in "${arr[@]}"; do
-        # Combine the Google Drive file ID
-        gdrive_id=$(combine_gdrive_id "$split_url")
-        file_name="model_${gdrive_id}.zip"
-        
-        # Download the file
-        printf "Downloading Google Drive model: %s\n" "${gdrive_id}"
-        provisioning_download_gdrive "$gdrive_id" "$dir" "$file_name"
-        
-        # Unzip the file
-        printf "Unzipping: %s\n" "${file_name}"
-        unzip -o "$dir/$file_name" -d "$dir"
-        
-        # Remove the zip file
-        printf "Removing zip file: %s\n" "${file_name}"
-        rm -f "$dir/$file_name"
-        
-        printf "\n"
-    done
-}
-
-# The `provisioning_download_gdrive` function remains the same:
-function provisioning_download_gdrive() {
-    gdrive_id="$1"
-    target_dir="$2"
-    file_name="$3"  # Optional: If you want to specify the output file name
-    printf "Downloading Google Drive file ID: %s to %s\n" "$gdrive_id" "$target_dir"
-    mkdir -p "$target_dir"
-    if [[ -n $file_name ]]; then
-        gdown "https://drive.google.com/uc?id=$gdrive_id" -O "$target_dir/$file_name"
-    else
-        gdown "https://drive.google.com/uc?id=$gdrive_id" -O "$target_dir"
-    fi
-}
 
 provisioning_start
