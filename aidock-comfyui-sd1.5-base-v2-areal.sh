@@ -33,7 +33,6 @@ NODES=(
 	"https://github.com/ttulttul/ComfyUI-Tensor-Operations"
 	"https://github.com/lquesada/ComfyUI-Inpaint-CropAndStitch"
 	"https://github.com/KoreTeknology/ComfyUI-Universal-Styler"
-	"https://github.com/ai-shizuka/ComfyUI-tbox"
 	"https://github.com/neverbiasu/ComfyUI-SAM2"
 	#resources board
 	"https://github.com/crystian/ComfyUI-Crystools"
@@ -299,6 +298,5 @@ function provisioning_get_models_url() {
         printf "\n"
     done
 }
-
 
 provisioning_start
