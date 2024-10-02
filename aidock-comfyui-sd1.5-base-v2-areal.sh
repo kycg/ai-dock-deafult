@@ -98,6 +98,14 @@ URL_ESRGAN_MODELS=(
 	"safetensors/ESRGAN/8x_NMKD-Supe.rar,8x_NMKD-Superscale_150000_G.pth"
 )
 
+URL_LORA_MODELS=(
+    "safetensors/lora/bsp.rar,bsp.safetensors"
+	"safetensors/lora/tc.rar,tc.safetensors"
+)
+URL_BBOX_MODELS=(
+    "safetensors/bbox/bre.rar,bre.pt"
+	"safetensors/bbox/bre4.rar,bre4.pt"
+)
 
 ### DO NOT EDIT BELOW HERE UNLESS YOU KNOW WHAT YOU ARE DOING ###
 
@@ -144,6 +152,12 @@ function provisioning_start() {
 	provisioning_get_models_url \
 		"${WORKSPACE}/storage/stable_diffusion/models/esrgan" \
 		"${URL_ESRGAN_MODELS[@]}"
+	provisioning_get_models_url \
+		"${WORKSPACE}/storage/stable_diffusion/models/lora" \
+		"${URL_LORA_MODELS[@]}"
+	provisioning_get_models_url \
+		"${WORKSPACE}/ComfyUI/models/ultralytics/bbox" \
+		"${URL_BBOX_MODELS[@]}"
 	provisioning_print_end
 }
 
