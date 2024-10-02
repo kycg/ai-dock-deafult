@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEFAULT_WORKFLOW="https://raw.githubusercontent.com/ai-dock/comfyui/main/config/workflows/flux-comfyui-example.json"
+DEFAULT_WORKFLOW="https://raw.githubusercontent.com/kycg/ai-dock-deafult/refs/heads/main/workflows/example.json"
 
 APT_PACKAGES=(
     #"package-1"
@@ -34,6 +34,7 @@ NODES=(
 	"https://github.com/lquesada/ComfyUI-Inpaint-CropAndStitch"
 	"https://github.com/KoreTeknology/ComfyUI-Universal-Styler"
 	"https://github.com/neverbiasu/ComfyUI-SAM2"
+	"https://github.com/rgthree/rgthree-comfy"
 	#resources board
 	"https://github.com/crystian/ComfyUI-Crystools"
 	
@@ -42,6 +43,7 @@ NODES=(
 CHECKPOINT_MODELS=(
 #"202312\\A_real(6644).safetensors",
 #20282?modelVersionId=489109
+#https://civitai.com/models/20282?modelVersionId=305687
 )
 
 CLIP_MODELS=(
@@ -58,11 +60,10 @@ VAE_MODELS=(
 )
 
 LORA_MODELS=(
+	 #bsp 123570
 	"https://civitai.com/api/download/models/123570?type=Model&format=SafeTensor"
-	#113725 better-standing-pussy v1 https://civitai.com/models/113725/better-standing-pussy-bsp
-
-	#59945/artistic-torn-clothes
-	"https://civitai.com/models/59945/artistic-torn-clothes"
+	#t-clothes 64403 
+	"https://civitai.com/api/download/models/64403?type=Model&format=SafeTensor"
 )
 
 ESRGAN_MODELS=(
