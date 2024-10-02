@@ -223,8 +223,21 @@ function combine_gdrive_id() {
     local gdrive_id="${split_id//+/}"
     echo "$gdrive_id"
 }
+
+# Function to check if gdown is installed and install it if not
+function check_and_install_gdown() {
+    if ! command -v gdown &> /dev/null; then
+        printf "gdown not found, installing...\n"
+        pip_install gdown
+    else
+        printf "gdown is already installed.\n"
+    fi
+}
 # Modified function to download Google Drive models, unzip, and remove the zip file
 function provisioning_get_gdrive_models() {
+    # Ensure gdown is installed before proceeding
+    check_and_install_gdown
+
     if [[ -z $2 ]]; then return 1; fi
     
     dir="$1"
