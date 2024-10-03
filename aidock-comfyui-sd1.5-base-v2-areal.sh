@@ -19,7 +19,6 @@ NODES=(
     "https://github.com/kycg/comfyui-Kwtoolset"
 	"https://github.com/hayden-fr/ComfyUI-Model-Manager"
 	"https://github.com/ciri/comfyui-model-downloader"
-	"https://github.com/ltdrdata/ComfyUI-Impact-Pack"
 	"https://github.com/Fannovel16/comfyui_controlnet_aux"
 	"https://github.com/jags111/efficiency-nodes-comfyui"
 	"https://github.com/WASasquatch/was-node-suite-comfyui"
@@ -38,11 +37,11 @@ NODES=(
 	#resources board
 	"https://github.com/crystian/ComfyUI-Crystools"
 	"https://github.com/kijai/ComfyUI-Florence2"
-	
+	"https://github.com/ltdrdata/ComfyUI-Impact-Pack"
 )
 
 CHECKPOINT_MODELS=(
-#https://civitai.com/models/20282?modelVersionId=305687
+	https://civitai.com/models/20282?modelVersionId=305687
 )
 
 CLIP_MODELS=(
@@ -174,9 +173,9 @@ function provisioning_start() {
     provisioning_get_models_http \
         "${WORKSPACE}/storage/stable_diffusion/models/clip" \
         "${HTTP_URL_CLIP_MODELS[@]}"
-    provisioning_get_models_chunks \
-        "${WORKSPACE}/storage/stable_diffusion/models/ckpt" \
-        "${HTTP_URL_CHECKPOINT_MODELS[@]}"
+    #provisioning_get_models_chunks \
+    #    "${WORKSPACE}/storage/stable_diffusion/models/ckpt" \
+    #    "${HTTP_URL_CHECKPOINT_MODELS[@]}"
 	provisioning_print_end
 }
 
