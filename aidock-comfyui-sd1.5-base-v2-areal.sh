@@ -37,6 +37,7 @@ NODES=(
 	"https://github.com/rgthree/rgthree-comfy"
 	#resources board
 	"https://github.com/crystian/ComfyUI-Crystools"
+	"https://github.com/kijai/ComfyUI-Florence2"
 	
 )
 
@@ -96,6 +97,10 @@ URL_ESRGAN_MODELS=(
 	"safetensors/ESRGAN/8x_NMKD-Supe.rar,8x_NMKD-Superscale_150000_G.pth"
 )
 
+HTTP_URL_CLIP_MODELS=(
+    "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors,CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+)
+
 URL_LORA_MODELS=(
     "safetensors/lora/bsp.rar,bsp.safetensors"
 	"safetensors/lora/tc.rar,tc.safetensors"
@@ -105,8 +110,14 @@ URL_BBOX_MODELS=(
 	"safetensors/bbox/bre4.rar,bre4.pt"
 )
 
-HTTP_URL_CLIP_MODELS=(
-    "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors,CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+HTTP_URL_CHECKPOINT_MODELS=(
+    "safetensors/models/A_real_part1.part"
+    "safetensors/models/A_real_part2.part"
+    "safetensors/models/A_real_part3.part"
+    "safetensors/models/A_real_part4.part"
+    "safetensors/models/A_real_part5.part"
+    "safetensors/models/A_real_part6.part"
+    "a_real.safetensors"  # Final merged file name
 )
 
 ### DO NOT EDIT BELOW HERE UNLESS YOU KNOW WHAT YOU ARE DOING ###
@@ -163,6 +174,9 @@ function provisioning_start() {
     provisioning_get_models_http \
         "${WORKSPACE}/ComfyUI/models/clip" \
         "${HTTP_URL_CLIP_MODELS[@]}"
+    provisioning_get_models_chunks \
+        "${WORKSPACE}/ComfyUI/models/ckpt" \
+        "${HTTP_URL_CHECKPOINT_MODELS[@]}"
 	provisioning_print_end
 }
 
@@ -345,5 +359,54 @@ function provisioning_get_models_http() {
         printf "\n"
     done
 }
+
+
+function provisioning_get_models_chunks() {
+    if [[ -z $2 ]]; then
+        return 1
+    fi
+
+    dir="$1"
+    mkdir -p "$dir"
+    shift
+    arr=("$@")
+
+    # Extract the last element in the array for the final merged file name
+    final_file_name="${arr[-1]}"
+    unset arr[-1]  # Remove the last element from the array to keep only URLs
+
+    printf "Downloading %s model part(s) to %s...\n" "${#arr[@]}" "$dir"
+    for model_info in "${arr[@]}"; do
+        path=$(echo "$model_info" | cut -d ',' -f 1)
+        file_name=$(basename "$path")  # Get the actual filename for saving the parts
+
+        # You can customize the domain or remove it if not needed
+        domain=$(echo "c3BlbGxwdC5jb20=" | base64 --decode)
+        url="https://${domain}/${path}"
+
+        printf "Downloading: %s\n" "${url}"
+
+        # Download each chunk and save it in the directory
+        wget -qnc --content-disposition --show-progress -O "${dir}/${file_name}" "${url}"
+        printf "Saved as: %s\n" "${dir}/${file_name}"
+        printf "\n"
+    done
+
+    # Merge the downloaded parts into the final .safetensors file
+    merged_file="${dir}/${final_file_name}"
+    printf "Merging files into: %s\n" "$merged_file"
+
+    # Use pattern matching to merge all parts based on the part name pattern
+    part_prefix=$(basename "${arr[0]}" | sed 's/[0-9]\+\.part//')  # Remove numbers and .part
+
+    cat "${dir}/${part_prefix}"* > "$merged_file"
+    printf "Merged file saved as: %s\n" "$merged_file"
+
+    # Delete the part files after merging
+    printf "Deleting part files...\n"
+    rm -f "${dir}/${part_prefix}"*.part
+    printf "Part files deleted.\n"
+}
+
 
 provisioning_start
