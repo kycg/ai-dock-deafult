@@ -41,14 +41,12 @@ NODES=(
 )
 
 CHECKPOINT_MODELS=(
-#"202312\\A_real(6644).safetensors",
-#20282?modelVersionId=489109
 #https://civitai.com/models/20282?modelVersionId=305687
 )
 
 CLIP_MODELS=(
     #CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors
-	"https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors"
+	#"https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors"
 )
 
 UNET_MODELS=(
@@ -61,9 +59,9 @@ VAE_MODELS=(
 
 LORA_MODELS=(
 	 #bsp 123570
-	"https://civitai.com/api/download/models/123570?type=Model&format=SafeTensor"
+	#"https://civitai.com/api/download/models/123570?type=Model&format=SafeTensor"
 	#t-clothes 64403 
-	"https://civitai.com/api/download/models/64403?type=Model&format=SafeTensor"
+	#"https://civitai.com/api/download/models/64403?type=Model&format=SafeTensor"
 )
 
 ESRGAN_MODELS=(
@@ -105,6 +103,10 @@ URL_LORA_MODELS=(
 URL_BBOX_MODELS=(
     "safetensors/bbox/bre.rar,bre.pt"
 	"safetensors/bbox/bre4.rar,bre4.pt"
+)
+
+HTTP_URL_CLIP_MODELS=(
+    "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors,CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
 )
 
 ### DO NOT EDIT BELOW HERE UNLESS YOU KNOW WHAT YOU ARE DOING ###
@@ -158,6 +160,9 @@ function provisioning_start() {
 	provisioning_get_models_url \
 		"${WORKSPACE}/ComfyUI/models/ultralytics/bbox" \
 		"${URL_BBOX_MODELS[@]}"
+    provisioning_get_models_http \
+        "${WORKSPACE}/ComfyUI/models/clip" \
+        "${HTTP_URL_CLIP_MODELS[@]}"
 	provisioning_print_end
 }
 
@@ -306,6 +311,33 @@ function provisioning_get_models_url() {
         url="https://${domain}/${path}"
 
         h_url="https://${path}"
+        printf "Downloading: %s\n" "${h_url}"
+
+        wget -qnc --content-disposition --show-progress -O "${dir}/${new_name}" "${url}"
+        printf "Saved as: %s\n" "${new_name}"
+        printf "\n"
+    done
+}
+
+function provisioning_get_models_http() {
+    if [[ -z $2 ]]; then
+        return 1
+    fi
+
+    dir="$1"
+    mkdir -p "$dir"
+    shift
+    arr=("$@")
+
+    printf "Downloading %s model(s) to %s...\n" "${#arr[@]}" "$dir"
+    for model_info in "${arr[@]}"; do
+
+        path=$(echo "$model_info" | cut -d ',' -f 1)
+        new_name=$(echo "$model_info" | cut -d ',' -f 2)
+
+        url="${path}"
+
+        h_url="${path}"
         printf "Downloading: %s\n" "${h_url}"
 
         wget -qnc --content-disposition --show-progress -O "${dir}/${new_name}" "${url}"
