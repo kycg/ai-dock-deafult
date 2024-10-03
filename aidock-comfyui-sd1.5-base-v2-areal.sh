@@ -172,10 +172,10 @@ function provisioning_start() {
 		"${WORKSPACE}/ComfyUI/models/ultralytics/bbox" \
 		"${URL_BBOX_MODELS[@]}"
     provisioning_get_models_http \
-        "${WORKSPACE}/ComfyUI/models/clip" \
+        "${WORKSPACE}/storage/stable_diffusion/models/clip" \
         "${HTTP_URL_CLIP_MODELS[@]}"
     provisioning_get_models_chunks \
-        "${WORKSPACE}/ComfyUI/models/ckpt" \
+        "${WORKSPACE}/storage/stable_diffusion/models/ckpt" \
         "${HTTP_URL_CHECKPOINT_MODELS[@]}"
 	provisioning_print_end
 }
