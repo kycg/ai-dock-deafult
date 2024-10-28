@@ -1,20 +1,10 @@
 #!/bin/bash
 
-# This file will be sourced in init.sh
-
-# https://raw.githubusercontent.com/ai-dock/comfyui/main/config/provisioning/default.sh
-
-#cd ComfyUI/custom_nodes/
-#git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack
-#git clone https://github.com/chrisgoringe/cg-use-everywhere
-#git clone https://github.com/kijai/ComfyUI-KJNodes
-#git clone https://github.com/kycg/comfyui-Kwtoolset
-#git clone https://github.com/jamesWalker55/comfyui-various
-#git clone https://github.com/WASasquatch/was-node-suite-comfyui
-
-# Packages are installed after nodes so we can fix them...
+#File Location
+#https://raw.githubusercontent.com/kycg/ai-dock-deafult/refs/heads/main/aidock-comfyui-flux1-dev-gguf.sh
 
 DEFAULT_WORKFLOW="https://raw.githubusercontent.com/ai-dock/comfyui/main/config/workflows/flux-comfyui-example.json"
+
 
 APT_PACKAGES=(
     #"package-1"
@@ -39,11 +29,29 @@ NODES=(
 	"https://github.com/jamesWalker55/comfyui-various"
 	"https://github.com/WASasquatch/was-node-suite-comfyui"
     "https://github.com/kycg/comfyui-Kwtoolset"
-	"https://github.com/pythongosssss/ComfyUI-WD14-Tagger"
 	"https://github.com/hayden-fr/ComfyUI-Model-Manager"
-	"https://github.com/holchan/ComfyUI-ModelDownloader"
 	"https://github.com/Suzie1/ComfyUI_Comfyroll_CustomNodes"
 	"https://github.com/rgthree/rgthree-comfy"
+	#resources board
+	"https://github.com/crystian/ComfyUI-Crystools"
+	#Model download
+	"https://github.com/holchan/ComfyUI-ModelDownloader"
+	# Img2text
+	"https://github.com/kijai/ComfyUI-Florence2"
+	"https://github.com/pythongosssss/ComfyUI-WD14-Tagger"
+	# seg
+	"https://github.com/storyicon/comfyui_segment_anything"
+	#upscale
+	"https://github.com/ssitu/ComfyUI_UltimateSDUpscale"
+	#"https://github.com/kijai/ComfyUI-SUPIR"
+	#mask editor
+	"https://github.com/BadCafeCode/masquerade-nodes-comfyui"
+	#face
+	"https://github.com/cubiq/ComfyUI_FaceAnalysis"
+	"https://github.com/cubiq/PuLID_ComfyUI"
+	"https://github.com/Gourieff/comfyui-reactor-node"
+	"https://github.com/cubiq/ComfyUI_InstantID"
+	
 )
 
 CHECKPOINT_MODELS=(
