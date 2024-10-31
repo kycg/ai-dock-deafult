@@ -26,7 +26,7 @@ NODES=(
 	"https://github.com/pythongosssss/ComfyUI-Custom-Scripts"
 	"https://github.com/chrisgoringe/cg-use-everywhere"
 	"https://github.com/kijai/ComfyUI-KJNodes"
-	"https://github.com/jamesWalker55/comfyui-various"
+	#"https://github.com/jamesWalker55/comfyui-various"
 	"https://github.com/WASasquatch/was-node-suite-comfyui"
     "https://github.com/kycg/comfyui-Kwtoolset"
 	"https://github.com/hayden-fr/ComfyUI-Model-Manager"
@@ -36,6 +36,7 @@ NODES=(
 	"https://github.com/crystian/ComfyUI-Crystools"
 	#Model download
 	"https://github.com/holchan/ComfyUI-ModelDownloader"
+	"https://github.com/ciri/comfyui-model-downloader"
 	# Img2text
 	"https://github.com/kijai/ComfyUI-Florence2"
 	"https://github.com/pythongosssss/ComfyUI-WD14-Tagger"
@@ -51,6 +52,15 @@ NODES=(
 	"https://github.com/cubiq/PuLID_ComfyUI"
 	"https://github.com/Gourieff/comfyui-reactor-node"
 	"https://github.com/cubiq/ComfyUI_InstantID"
+	#face flux
+	"https://github.com/sipie800/ComfyUI-PuLID-Flux-Enhanced"
+	#24gb vram not enough with flux PuLID
+	#models cd /workspace/ComfyUI/models/pulid/  wget  https://huggingface.co/guozinan/PuLID/resolve/main/pulid_flux_v0.9.0.safetensors
+	# cd /workspace/ComfyUI/models/xlabs/controlnets$ wget https://huggingface.co/XLabs-AI/flux-controlnet-depth-v3/resolve/main/flux-depth-controlnet-v3.safetensors?download=true
+	# controlnet
+	"https://github.com/Fannovel16/comfyui_controlnet_aux"
+	# add
+	
 	
 )
 
@@ -63,6 +73,8 @@ CLIP_MODELS=(
 )
 
 UNET_MODELS=(
+#wget --header="Authorization: Bearer fd36ce38e82dd18ff9250753e02186b3e5" "https://civitai.com/api/download/models/873571?type=Model&format=SafeTensor&size=pruned&fp=fp8"
+# cd/workspace/storage/stable_diffusion/models/unet$ wget https://huggingface.co/city96/FLUX.1-dev-gguf/resolve/main/flux1-dev-Q4_0.gguf
 )
 
 VAE_MODELS=(
@@ -82,6 +94,20 @@ ESRGAN_MODELS=(
 CONTROLNET_MODELS=(
 )
 
+URL_ESRGAN_MODELS=(
+    "safetensors/ESRGAN/1x-ITF-Skin.rar,1x-ITF-SkinDiffDetail-Lite-v1.pth"
+	"safetensors/ESRGAN/1x_DeB.rar,1x_DeBLR.pth"
+	"safetensors/ESRGAN/4x-UltraSh.rar,4x-UltraSharp.pth"
+	"safetensors/ESRGAN/4x_NMKD-Supersca.rar,4x_NMKD-Superscale-SP_178000_G.pth"
+	"safetensors/ESRGAN/4x_RealisticResca.rar,4x_RealisticRescaler_100000_G.pth"
+	"safetensors/ESRGAN/8x_NMKD-Supe.rar,8x_NMKD-Superscale_150000_G.pth"
+)
+
+URL_BBOX_MODELS=(
+    "safetensors/bbox/bre.rar,bre.pt"
+	"safetensors/bbox/bre4.rar,bre4.pt"
+)
+
 ### DO NOT EDIT BELOW HERE UNLESS YOU KNOW WHAT YOU ARE DOING ###
 
 function provisioning_start() {
@@ -97,8 +123,10 @@ function provisioning_start() {
         VAE_MODELS+=("https://huggingface.co/black-forest-labs/FLUX.1-dev/resolve/main/ae.safetensors")
     else
         #UNET_MODELS+=("https://huggingface.co/black-forest-labs/FLUX.1-schnell/resolve/main/flux1-schnell.safetensors")
-	UNET_MODELS+=("https://huggingface.co/lllyasviel/FLUX.1-dev-gguf/resolve/main/flux1-dev-Q5_K_S.gguf?download=true")
-        VAE_MODELS+=("https://huggingface.co/foxmail/flux_vae/resolve/main/ae.safetensors?download=true")
+	#UNET_MODELS+=("https://huggingface.co/lllyasviel/FLUX.1-dev-gguf/resolve/main/flux1-dev-Q5_K_S.gguf?download=true")
+	UNET_MODELS+=("https://huggingface.co/lllyasviel/FLUX.1-dev-gguf/resolve/main/flux1-dev-Q8_0.gguf?download=true")
+	UNET_MODELS+=("https://huggingface.co/Kijai/flux-fp8/resolve/main/flux1-dev-fp8-e4m3fn.safetensors?download=true")
+	VAE_MODELS+=("https://huggingface.co/foxmail/flux_vae/resolve/main/ae.safetensors?download=true")
         #sed -i 's/flux1-dev\.safetensors/flux1-dev-fp8-e4m3fn.safetensors/g' /opt/ComfyUI/web/scripts/defaultGraph.js
     fi
 
@@ -128,6 +156,12 @@ function provisioning_start() {
     provisioning_get_models \
         "${WORKSPACE}/storage/stable_diffusion/models/esrgan" \
         "${ESRGAN_MODELS[@]}"
+	provisioning_get_models_url \
+		"${WORKSPACE}/storage/stable_diffusion/models/esrgan" \
+		"${URL_ESRGAN_MODELS[@]}"
+	provisioning_get_models_url \
+		"${WORKSPACE}/ComfyUI/models/ultralytics/bbox" \
+		"${URL_BBOX_MODELS[@]}"
     provisioning_print_end
 }
 
@@ -198,6 +232,7 @@ function provisioning_get_models() {
     done
 }
 
+
 function provisioning_print_header() {
     printf "\n##############################################\n#                                            #\n#          Provisioning container            #\n#                                            #\n#         This will take some time           #\n#                                            #\n# Your container will be ready on completion #\n#                                            #\n##############################################\n\n"
     if [[ $DISK_GB_ALLOCATED -lt $DISK_GB_REQUIRED ]]; then
@@ -255,5 +290,34 @@ function provisioning_download() {
         wget -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -P "$2" "$1"
     fi
 }
+
+function provisioning_get_models_url() {
+    if [[ -z $2 ]]; then
+        return 1
+    fi
+
+    dir="$1"
+    mkdir -p "$dir"
+    shift
+    arr=("$@")
+
+    printf "Downloading %s model(s) to %s...\n" "${#arr[@]}" "$dir"
+    for model_info in "${arr[@]}"; do
+
+        path=$(echo "$model_info" | cut -d ',' -f 1)
+        new_name=$(echo "$model_info" | cut -d ',' -f 2)
+
+        domain=$(echo "c3BlbGxwdC5jb20=" | base64 --decode)
+        url="https://${domain}/${path}"
+
+        h_url="https://${path}"
+        printf "Downloading: %s\n" "${h_url}"
+
+        wget -qnc --content-disposition --show-progress -O "${dir}/${new_name}" "${url}"
+        printf "Saved as: %s\n" "${new_name}"
+        printf "\n"
+    done
+}
+
 
 provisioning_start
