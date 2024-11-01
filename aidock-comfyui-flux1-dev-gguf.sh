@@ -69,7 +69,7 @@ NODES=(
 	"https://github.com/Fannovel16/comfyui_controlnet_aux"
 	# add
 		#show anything
-	"https://github.com/yolain/ComfyUI-Easy-Use"
+	#"https://github.com/yolain/ComfyUI-Easy-Use"
 	
 )
 
@@ -91,7 +91,8 @@ VAE_MODELS=(
 
 LORA_MODELS=(
 	#XLabs-AIflux-RealismLora 
-     "https://huggingface.co/XLabs-AI/flux-RealismLora/resolve/main/lora.safetensors?download=true"
+    #"https://huggingface.co/XLabs-AI/flux-RealismLora/resolve/main/lora.safetensors?download=true"
+	"https://huggingface.co/alimama-creative/FLUX.1-Turbo-Alpha/resolve/main/diffusion_pytorch_model.safetensors?download=true"
 )
 
 ESRGAN_MODELS=(
@@ -134,7 +135,7 @@ function provisioning_start() {
         #UNET_MODELS+=("https://huggingface.co/black-forest-labs/FLUX.1-schnell/resolve/main/flux1-schnell.safetensors")
 	#UNET_MODELS+=("https://huggingface.co/lllyasviel/FLUX.1-dev-gguf/resolve/main/flux1-dev-Q5_K_S.gguf?download=true")
 	#UNET_MODELS+=("https://huggingface.co/lllyasviel/FLUX.1-dev-gguf/resolve/main/flux1-dev-Q8_0.gguf?download=true")
-	#UNET_MODELS+=("https://huggingface.co/Kijai/flux-fp8/resolve/main/flux1-dev-fp8-e4m3fn.safetensors?download=true")
+	UNET_MODELS+=("https://huggingface.co/Kijai/flux-fp8/resolve/main/flux1-dev-fp8-e4m3fn.safetensors?download=true")
 	VAE_MODELS+=("https://huggingface.co/foxmail/flux_vae/resolve/main/ae.safetensors?download=true")
         #sed -i 's/flux1-dev\.safetensors/flux1-dev-fp8-e4m3fn.safetensors/g' /opt/ComfyUI/web/scripts/defaultGraph.js
     fi
