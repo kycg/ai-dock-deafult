@@ -22,7 +22,7 @@ PIP_PACKAGES=(
 	"GitPython"
 	"scipy>=1.11.4"
 	#"dlib"
-	"dlib==19.22.0"  # Use a specific version to avoid compilation
+	"--prefer-binary dlib==19.22.0"  # Use a specific version to avoid compilation
     #"package-1"
     #"package-2"
 )
@@ -196,6 +196,9 @@ function provisioning_get_apt_packages() {
 }
 
 function provisioning_get_pip_packages() {
+    # 确保使用默认的 PyPI 源
+    pip config set global.index-url https://pypi.org/simple
+	
     if ! pip show wheel &> /dev/null; then
         pip install --no-cache-dir wheel  # Install `wheel` to speed up builds if not already installed
     fi
