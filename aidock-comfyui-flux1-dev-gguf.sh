@@ -21,6 +21,7 @@ PIP_PACKAGES=(
 	"opencv-python-headless"
 	"GitPython"
 	"scipy>=1.11.4"
+	"dlib"
     #"package-1"
     #"package-2"
 )
