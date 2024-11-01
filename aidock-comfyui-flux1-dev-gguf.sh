@@ -21,7 +21,8 @@ PIP_PACKAGES=(
 	"opencv-python-headless"
 	"GitPython"
 	"scipy>=1.11.4"
-	"dlib"
+	#"dlib"
+	"dlib==19.22.0"  # Use a specific version to avoid compilation
     #"package-1"
     #"package-2"
 )
@@ -175,11 +176,18 @@ function provisioning_start() {
 
 function pip_install() {
     if [[ -z $MAMBA_BASE ]]; then
+        "$COMFYUI_VENV_PIP" install --no-cache-dir "$@" || {
+            echo "Retrying installation of $@"
             "$COMFYUI_VENV_PIP" install --no-cache-dir "$@"
-        else
+        }
+    else
+        micromamba run -n comfyui pip install --no-cache-dir "$@" || {
+            echo "Retrying installation of $@ in micromamba"
             micromamba run -n comfyui pip install --no-cache-dir "$@"
-        fi
+        }
+    fi
 }
+
 
 function provisioning_get_apt_packages() {
     if [[ -n $APT_PACKAGES ]]; then
@@ -188,33 +196,34 @@ function provisioning_get_apt_packages() {
 }
 
 function provisioning_get_pip_packages() {
-    if [[ -n $PIP_PACKAGES ]]; then
-            pip_install ${PIP_PACKAGES[@]}
+    if ! pip show wheel &> /dev/null; then
+        pip install --no-cache-dir wheel  # Install `wheel` to speed up builds if not already installed
     fi
+    pip_install "${PIP_PACKAGES[@]}"
 }
 
 function provisioning_get_nodes() {
+    echo "Starting to clone GitHub nodes in parallel..."
     for repo in "${NODES[@]}"; do
-        dir="${repo##*/}"
-        path="/opt/ComfyUI/custom_nodes/${dir}"
-        requirements="${path}/requirements.txt"
-        if [[ -d $path ]]; then
-            if [[ ${AUTO_UPDATE,,} != "false" ]]; then
-                printf "Updating node: %s...\n" "${repo}"
-                ( cd "$path" && git pull )
-                if [[ -e $requirements ]]; then
-                   pip_install -r "$requirements"
-                fi
+        (
+            dir="${repo##*/}"
+            path="/opt/ComfyUI/custom_nodes/${dir}"
+            requirements="${path}/requirements.txt"
+            if [[ -d "$path" ]]; then
+                echo "Updating node: $repo"
+                (cd "$path" && git pull)
+                [[ -e "$requirements" ]] && pip_install -r "$requirements"
+            else
+                echo "Cloning node: $repo"
+                git clone "$repo" "$path" --recursive
+                [[ -e "$requirements" ]] && pip_install -r "$requirements"
             fi
-        else
-            printf "Downloading node: %s...\n" "${repo}"
-            git clone "${repo}" "${path}" --recursive
-            if [[ -e $requirements ]]; then
-                pip_install -r "${requirements}"
-            fi
-        fi
+        ) &
     done
+    wait  # Ensure all parallel background tasks are completed
+    echo "All GitHub nodes cloned and dependencies installed."
 }
+
 
 function provisioning_get_default_workflow() {
     if [[ -n $DEFAULT_WORKFLOW ]]; then
