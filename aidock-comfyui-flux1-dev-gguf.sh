@@ -15,6 +15,12 @@ PIP_PACKAGES=(
 	"sentencepiece"
 	"piexif"
 	"matplotlib" 
+	"segment-anything"
+	"scikit-image"
+	"transformers"
+	"opencv-python-headless"
+	"GitPython"
+	"scipy>=1.11.4"
     #"package-1"
     #"package-2"
 )
@@ -60,7 +66,8 @@ NODES=(
 	# controlnet
 	"https://github.com/Fannovel16/comfyui_controlnet_aux"
 	# add
-	
+		#show anything
+	"https://github.com/yolain/ComfyUI-Easy-Use"
 	
 )
 
