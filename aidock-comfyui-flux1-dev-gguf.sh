@@ -69,7 +69,9 @@ NODES=(
 	"https://github.com/Fannovel16/comfyui_controlnet_aux"
 	# add
 		#show anything
-	#"https://github.com/yolain/ComfyUI-Easy-Use"
+	"https://github.com/yolain/ComfyUI-Easy-Use"
+	#ali control inpaint
+	"https://github.com/alimama-creative/FLUX-Controlnet-Inpainting"
 	
 )
 
@@ -92,6 +94,8 @@ VAE_MODELS=(
 LORA_MODELS=(
 	#XLabs-AIflux-RealismLora 
     #"https://huggingface.co/XLabs-AI/flux-RealismLora/resolve/main/lora.safetensors?download=true"
+	
+	#Flux-turbo
 	"https://huggingface.co/alimama-creative/FLUX.1-Turbo-Alpha/resolve/main/diffusion_pytorch_model.safetensors?download=true"
 )
 
@@ -102,6 +106,9 @@ ESRGAN_MODELS=(
 )
 
 CONTROLNET_MODELS=(
+	#controlnet inpait alibaba
+	#"https://huggingface.co/alimama-creative/FLUX.1-dev-Controlnet-Inpainting-Beta/resolve/main/diffusion_pytorch_model.safetensors?download=true"
+	
 )
 
 URL_ESRGAN_MODELS=(
@@ -109,8 +116,11 @@ URL_ESRGAN_MODELS=(
 	"safetensors/ESRGAN/1x_DeB.rar,1x_DeBLR.pth"
 	"safetensors/ESRGAN/4x-UltraSh.rar,4x-UltraSharp.pth"
 	"safetensors/ESRGAN/4x_NMKD-Supersca.rar,4x_NMKD-Superscale-SP_178000_G.pth"
-	"safetensors/ESRGAN/4x_RealisticResca.rar,4x_RealisticRescaler_100000_G.pth"
-	"safetensors/ESRGAN/8x_NMKD-Supe.rar,8x_NMKD-Superscale_150000_G.pth"
+	#"safetensors/ESRGAN/4x_RealisticResca.rar,4x_RealisticRescaler_100000_G.pth"
+	#"safetensors/ESRGAN/8x_NMKD-Supe.rar,8x_NMKD-Superscale_150000_G.pth"
+	"safetensors/ESRGAN/4xNomosWebP.rar,4xNomosWebPhoto_atd.pth"
+	"safetensors/ESRGAN/4x_NMKD-Siax.rar,4x_NMKD-Siax_200k.pth"
+	"safetensors/ESRGAN/4xNomos2_hq.rar,4xNomos2_hq_drct-l.pth"
 )
 
 URL_BBOX_MODELS=(
