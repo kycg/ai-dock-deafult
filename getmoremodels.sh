@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#Location  wget https://raw.githubusercontent.com/kycg/ai-dock-deafult/refs/heads/main/getmoremodels.sh
+#2 		   chmod +x getmoremodels.sh
+#3		   ./getmoremodels.sh
 
 download_model() {
     local url=$1
@@ -20,7 +23,6 @@ download_model() {
     fi
 }
 
-# 下载任务列表
 download_model "https://huggingface.co/alimama-creative/FLUX.1-dev-Controlnet-Inpainting-Beta/resolve/main/diffusion_pytorch_model.safetensors?download=true" \
                "/workspace/Comfyui/models/controlnet/cn-inpaint-control.safetensors"
 
