@@ -145,7 +145,7 @@ function provisioning_start() {
         #UNET_MODELS+=("https://huggingface.co/black-forest-labs/FLUX.1-schnell/resolve/main/flux1-schnell.safetensors")
 	#UNET_MODELS+=("https://huggingface.co/lllyasviel/FLUX.1-dev-gguf/resolve/main/flux1-dev-Q5_K_S.gguf?download=true")
 	#UNET_MODELS+=("https://huggingface.co/lllyasviel/FLUX.1-dev-gguf/resolve/main/flux1-dev-Q8_0.gguf?download=true")
-	UNET_MODELS+=("https://huggingface.co/Kijai/flux-fp8/resolve/main/flux1-dev-fp8-e4m3fn.safetensors?download=true")
+	#UNET_MODELS+=("https://huggingface.co/Kijai/flux-fp8/resolve/main/flux1-dev-fp8-e4m3fn.safetensors?download=true")
 	VAE_MODELS+=("https://huggingface.co/foxmail/flux_vae/resolve/main/ae.safetensors?download=true")
         #sed -i 's/flux1-dev\.safetensors/flux1-dev-fp8-e4m3fn.safetensors/g' /opt/ComfyUI/web/scripts/defaultGraph.js
     fi
